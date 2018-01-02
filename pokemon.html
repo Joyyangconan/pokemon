@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>POKEMON</title>
+  <script data-main="app/main.js" src="app/require.js"></script>
+
+  <style>
+    /* 一些常用初始化 */
+
+    body {
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .clearfix:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    /* iconfont */
+
+    @font-face {
+      font-family: 'iconfont';
+      /* project id 455727 */
+      src: url('http://at.alicdn.com/t/font_455727_ye8gfgnlvnw5ewmi.eot');
+      src: url('http://at.alicdn.com/t/font_455727_ye8gfgnlvnw5ewmi.eot?#iefix') format('embedded-opentype'),
+      url('http://at.alicdn.com/t/font_455727_ye8gfgnlvnw5ewmi.woff') format('woff'),
+      url('http://at.alicdn.com/t/font_455727_ye8gfgnlvnw5ewmi.ttf') format('truetype'),
+      url('http://at.alicdn.com/t/font_455727_ye8gfgnlvnw5ewmi.svg#iconfont') format('svg');
+    }
+
+    /* media 公共部分 */
+
+    /* header部分 */
+    #header-wrap {
+      position: relative;
+/*      background-image: url(http://e.hiphotos.baidu.com/image/pic/item/e824b899a9014c08b2712afc017b02087bf4f425.jpg);
+      background-position: center center;
+      background-size: cover;*/
+    }
+
+    #header-content {
+      position: absolute;
+      top: 300px;
+      left: 0;
+      right: 0;
+      padding-bottom: 100px;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      background-color: transparent;
+      overflow: hidden;
+    }
+
+    header img {
+      float: left;
+    }
+
+    #header-content h4 {
+      margin-top: 0;
+      font-weight: normal;
+      font-style: italic;
+    }
+
+    #header-content h1 {
+      margin-top: 10px;
+    }
+
+    #header-content button {
+      padding: 25px 50px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      background-color: #fed136;
+      cursor: pointer;
+    }
+
+        /*轮播*/
+    #header-wrap div.container {
+      position: absolute;
+      top: 0;
+      left: 0;
+/*      width: 500px;*/
+/*      height: 334px;*/
+/*      margin: 20px auto;*/
+      overflow: hidden;
+    }
+    
+    #header-wrap div.container .picwrap {
+      position: absolute;
+/*      left: -500px;*/
+    }
+
+    #header-wrap div.container .picwrap li {
+      float: left;
+    }
+    
+    #header-wrap div.container .picwrap li {
+      display: block;
+    }
+
+    #header-wrap div.container img {
+/*      width: 500px;*/
+      vertical-align: bottom;
+    }
+
+
+    #header-wrap div.container .touchbar {
+      position: absolute;
+      bottom: 100px;
+/*      left: 250px;*/
+      margin-left: -50px;
+      width: 100px;
+    }
+
+    #header-wrap div.container .touchbar li {
+      float: left;
+      width: 10px;
+      height: 10px;
+      margin-right: 20px;
+      background-color: #777;
+      border-radius: 10px;
+    }
+    #header-wrap div.container .touchbar li.selected {
+      background-color: #eee;
+    }
+
+    #header-wrap div.container .touchbar li:last-child {
+      margin-right: 0;
+    }
+
+    #header-wrap div.container .btn {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 165px;
+      font-size: 20px;
+      font-family: 'microsoft yahei';
+      text-align: center;
+      color: #aaa;
+      background-color: rgba(30,30,30,0.7);
+      border-radius: 50%;
+      cursor: pointer;
+      user-select:none; 
+    }
+
+    #header-wrap div.container .btn:hover {
+      color: #fff;
+    }
+
+    #header-wrap div.container .btn1 {
+      left: 30px;
+    }
+
+    #header-wrap div.container .btn2 {
+      right: 30px;
+    }
+
+
+
+    /*轮播结束*/
+
+/*    瀑布流开始*/
+#pic-ct{
+  position: relative;
+  width: 1208px;
+  margin: 0 auto;
+}
+#pic-ct .item{
+  position: absolute;
+  padding: 0 0 10px 0;
+  width: 280px;
+  margin: 10px;
+  border: 1px solid #DFDFDF;
+  background: #FFF;
+  opacity: 0;/*先让其看不见*/
+  transition: all .8s;
+}
+#pic-ct .item img{
+  margin: 10px;
+  width: 260px;
+}
+#pic-ct .item .header{
+  height: 25px;
+  margin: 0 12px;
+  border-bottom: 1px solid #DBDBDB;
+}
+#pic-ct .desp{
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 10px 15px 0;
+  color: #777371;
+}
+#load{
+  display: inline-block;
+  color: #fff;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #fed136;
+  font-weight: 700;
+/*  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;*/
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*    瀑布流结束*/
+
+    /* service部分 */
+
+    #services p {
+        color: #999;
+        font-size: 16px;
+      }
+    .servicetab span {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: #fed136;
+      border-radius: 50%;
+    }
+
+    .servicetab span i {
+      font-family: "iconfont" !important;
+      line-height: 100px;
+      user-select: none;
+      font-size: 56px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* story部分 */
+    #story {
+        background-color: #f7f7f7;
+    }
+
+    .story_card {
+        box-sizing: border-box;
+        padding: 0 15px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .story_img_wrap {
+        position: relative;
+      }
+
+      .story_img_wrap .hovereffect {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: white;
+        background-color: black;
+        opacity: 0;
+        transition: all ease .5s;
+        -webkit-transition: all ease .5s;
+        font-family: "iconfont" !important;
+        user-select: none;
+        font-size: 80px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .story_img_wrap .hovereffect span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -40px;
+        margin-top: -40px;
+      }
+
+      .story_img_wrap .hovereffect:hover {
+        opacity: .5;
+        cursor: pointer;
+      }
+
+      .shadoweff {
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)!important;
+      }
+
+      .story_card .story_img_wrap img {
+        width: 100%;
+        vertical-align: bottom;
+      }
+
+      .story_card h4 {
+        padding: 0;
+        margin: 0;
+        font-size: 22px;
+      }
+      .story_card p {
+        margin: 0;
+        padding: 0;
+        padding: 5px 0 10px 0;
+        font-size: 16px;
+        font-style: italic;
+      }
+
+
+      /* shop部分 */
+      #shop ul {
+        position: relative;
+      }
+
+      #shop ul:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 100%;
+        border-right: 1px solid #f1f1f1;
+      }
+
+      #shop li:last-child {
+        margin-bottom: 50px;
+      }
+
+
+      #shop .timeline_image {
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #fed136;
+      }
+
+      .timeline_heading h4 {
+        margin: 5px 0;
+        font-size: 20px;
+      }
+
+      .timeline_body p {
+        margin: 10px 0;
+        font-size: 14px;
+        color: #777;
+      }
+
+      /* team部分 */
+
+      .team_card img {
+        max-width: 100%;
+        box-sizing: border-box;
+        border: 10px solid #777;
+        border-radius: 50%;
+      }
+
+      .team_social ul {
+        font-family: "iconfont" !important;
+        user-select: none;
+        font-size: 20px;
+        line-height: 40px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+      }
+      .team_social li {
+        display: inline-block;
+        padding-right: 5px;
+      }
+
+      .team_social li a {
+        display: block;
+        color: white;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background-color: black;
+        transition: all .3s;
+      }
+
+      .team_social li a:hover {
+        background-color: #fed136;
+      }
+
+      .team_intro h4 {
+        margin: 10px 0 0 0;
+      }
+
+      .team_intro p {
+        margin: 5px 0 15px 0;
+      }
+
+      #ourteam>p:last-child {
+        margin: 40px 120px 0 120px;
+        font-style: normal;
+        line-height: 2;
+      }
+
+      /* contact部分 */
+
+      #contact {
+        background-image: url(http://book.jirengu.com/jirengu-inc/jrg-tehui/homework/%E8%8B%A5%E6%84%9A/16/img/map-image.png);
+        background-color: black;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      #contact h1 {
+        color: white;
+      }
+
+      #contact .container {
+        margin: 100px auto 0 auto;
+      }
+
+      #contact .column {
+        box-sizing: border-box;
+        padding: 0 8px;
+      }
+
+
+      #contact .inputgroup {
+        margin-bottom: 30px;
+      }
+
+      #contact .form_control {
+        width:100%;
+        padding: 20px;
+        box-sizing: border-box;
+        font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.4;
+        border-radius: 5px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+      }
+
+      #contact .form_control:focus {
+        border-color: #fed136;
+        outline: none;
+      }
+
+      #contact textarea {
+        height: 250px;
+      }
+
+      #contact button {
+        color: #fff;
+        background-color: #fed136;
+        border-color: #fed136;
+        font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-radius: 3px;
+        font-size: 18px;
+        padding: 20px 40px;
+        cursor: pointer;
+      }
+
+      /* footer部分 */
+      .termofuse a:hover {
+        text-decoration: underline;
+      }
+
+
+
+
+    @media screen and (min-width:800px) {
+
+
+
+      .title {
+        padding-bottom: 100px;
+      }
+
+      .title>h1 {
+        margin: 0 0 20px 0;
+        font-size: 2.5em;
+        font-weight: normal;
+      }
+
+      .title>p {
+        color: #999;
+        font-size: 16px;
+        font-style: italic;
+      }
+
+      /* ------------------------------------------------------ */
+      /* header部分 */
+      /* ------------------------------------------------------ */
+
+      header {
+        height: 80px;
+      }
+
+      header img[alt="pokemon_logo"] {
+        height: 65px;
+        margin: 15px 0 0 40px;
+      }
+
+      header ul {
+        color: black;
+        float: right;
+        margin: 26px 30px 0 0;
+      }
+
+      header ul .top_nav {
+        float: left;
+        margin-left: 10px;
+        padding: 5px 8px;
+        font-size: 18px;
+        text-align: center;
+        color: rgb(54, 99, 172);
+        border: 2px solid rgb(54, 99, 172);
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      header ul .top_nav:first-child {
+        color: rgb(255, 203, 5);
+        background-color: rgb(54, 99, 172);
+      }
+      header ul .top_nav:hover {
+        color: rgb(255, 203, 5);
+        background-color: rgb(54, 99, 172);
+      }
+
+      #header-content {
+        font-size: 40px;
+/*        margin-top: 350px;*/
+        padding-bottom: 100px;
+      }
+
+      #header-content h4 {
+        margin-bottom: 10px;
+      }
+
+      .menu_icon {
+        display: none;
+      }
+
+
+      /* ------------------------------------------------------ */
+      /* service 样式 */
+      /* ------------------------------------------------------ */
+      #services {
+        margin-top: 120px;
+        padding-bottom: 100px;
+        text-align: center;
+      }
+
+
+      .service_wrap {
+        padding-top: 80px;
+      }
+
+      .servicetab {
+        width: 33.3333333333%;
+        float: left;
+        box-sizing: border-box;
+        padding: 0 15px;
+      }
+
+
+      /* ------------------------------------------------------ */
+      /* story section */
+      /* ------------------------------------------------------ */
+      #story {
+        padding-top: 120px;
+      }
+
+      .story_wrap {
+        margin: 0 120px;
+      }
+
+      .story_card {
+        float: left;
+        width: 50%;
+        min-width: 270px;
+      }
+
+
+
+      /* ------------------------------------------------------ */
+      /* shop section */
+      /* ------------------------------------------------------ */
+      #shop {
+        padding-top: 120px;
+      }
+
+      #shop .container {
+        padding: 60px 30px 0 30px;
+      }
+
+      #shop ul:before {
+        left: 50%;
+      }
+
+      #shop li {
+        position: relative;
+        margin-bottom: 100px;
+        min-height: 170px;
+      }
+
+      #shop .timeline_image {
+        width: 150px;
+        height: 150px;
+        left: 50%;
+        margin-left: -85px;
+        /* 注意增加border的宽度 */
+        border: 10px solid #f1f1f1;
+      }
+
+      #shop .timeline_image img {
+        height: 150px;
+        margin-left: -20%;
+      }
+
+      #shop .oddlist {
+        width: 36%;
+        float: left;
+        padding: 0 0 0 60px;
+        text-align: right;
+        box-sizing: border-box;
+      }
+
+      #shop .evenlist {
+        width: 36%;
+        float: right;
+        padding: 0 60px 0 10px;
+        text-align: left;
+        box-sizing: border-box;
+      }
+
+      .timeline_image {
+        font-size: 24px;
+        color: white;
+      }
+
+      /* ------------------------------------------------------ */
+      /* team section */
+      /* ------------------------------------------------------ */
+      #ourteam {
+        background-color: #f7f7f7;
+        padding: 0 30px 120px 30px;
+        padding-top: 120px;
+
+      }
+      .team_wrap {
+        margin-top: 50px;
+      }
+      .team_card {
+        width: 33.333333333%;
+        float: left;
+        box-sizing: border-box;
+        padding: 0 30px;
+      }
+
+
+      /* ------------------------------------------------------ */
+      /* contact section */
+      /* ------------------------------------------------------ */
+
+      #contact {
+        padding-top: 120px;
+      }
+
+      #contact .container {
+        width: 970px;
+      }
+
+      #contact .column {
+        float: left;
+        width: 50%;
+      }
+
+      /* ------------------------------------------------------ */
+      /* footer section */
+      /* ------------------------------------------------------ */
+      
+      footer {
+        height: 80px;
+      }
+
+      .footfloat {
+        display: inline-block;  
+        box-sizing: border-box;
+        height: 50px;
+        font-size: 14px;
+        line-height: 50px;
+        padding: 20px;
+      }
+
+      .termofuse a {
+        color: #fed136;
+        padding-right: 20px;
+      }
+    }
+
+    @media screen and (min-width: 1027px) {
+      /* ------------------------------------------------------ */
+      /* story section 两栏问题*/
+      /* ------------------------------------------------------ */
+      #story {
+        padding-top: 120px;
+      }
+
+      .story_wrap {
+        margin: 0 100px;
+      }
+
+      .story_card {
+        float: left;
+        width: 33.3333333333%;
+        min-width: 270px;
+      }
+    }
+
+    @media screen and (max-width: 799px) {
+
+      .title {
+        padding-bottom: 80px;
+      }
+
+      .title>h1 {
+        margin: 0 0 20px 0;
+        font-size: 2.5em;
+        font-weight: normal;
+      }
+
+      .title>p {
+        color: #999;
+        font-size: 16px;
+        font-style: italic;
+      }
+
+      /* -------------------header部分-------------------- */
+      header ul {
+        display: none;
+      }
+
+      header { 
+        position: relative; /* 为三横杠提供定位上下文 */
+        height: 50px;
+      }
+
+      .menu_icon {
+        position: absolute;
+        top: 9px;
+        left: 150px;
+        padding: 0 5px;
+        color: white;
+        cursor: pointer;
+        font-family: "iconfont" !important;
+        background-color: rgb(54, 99, 172);
+        border-radius: 10px;
+        user-select: none;
+        font-size: 38px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      header img {
+        height: 35px;
+        margin: 15px 0 0 40px;
+      }
+
+      #header-content {
+        font-size: 20px;
+        margin-top: 150px;
+        padding-bottom: 100px;
+      }
+
+      #header-content h4 {
+        margin-bottom: 10px;
+      }
+
+      /* -------------------service部分-------------------- */
+      #services {
+        margin-top: 100px;
+        padding-bottom: 100px;
+        text-align: center;
+      }
+      .service_wrap {
+        padding-top: 40px;
+      }
+      .servicetab {
+        box-sizing: border-box;
+        padding: 15px 40px;
+      }
+
+
+      /* -------------------story部分-------------------- */
+      #story {
+        padding-top: 100px;
+      }
+      .story_wrap {
+        margin-top: 40px;
+      }
+
+      .story_card {
+        margin: 20px auto;
+        width: 70%;
+        min-width: 270px;
+        max-width: 350px;
+      }
+
+      /* -------------------shop部分-------------------- */
+      #shop {
+        padding-top: 100px;
+      }
+
+      #shop .container {
+        padding: 30px 15px 0 15px;
+      }
+
+      #shop ul:before {
+        left: 80px; 
+      }
+
+      #shop li {
+        position: relative;
+        margin-bottom: 50px;
+        min-height: 116px;
+      }
+
+      #shop .timeline_image {
+        width: 100px;
+        height: 100px;
+        left: 80px;
+        margin-left: -58px;
+        /* 注意增加border的宽度 */
+        border: 8px solid #f1f1f1;
+      }
+
+      #shop .timeline_image img {
+        height: 100px;
+        margin-left: -20%;
+      }
+
+      #shop .minlist {
+        margin-left: 100px;
+        padding: 0 0 0 60px;
+        text-align: left;
+        box-sizing: border-box;
+      }
+
+      .timeline_image {
+        font-size: 16px;
+        color: white;
+      }
+
+      #shop li:last-child {
+        margin-bottom: 0;
+      }
+
+      /* -------------------team部分-------------------- */
+      #ourteam {
+        background-color: #f7f7f7;
+        padding: 0 30px 120px 30px;
+        padding-top: 100px;
+      }
+      .team_wrap {
+        margin-top: 50px;
+      }
+      .team_card {
+        width: 50%;/**/
+        min-width: 240px;
+        margin: 40px auto;
+        box-sizing: border-box;
+        padding: 0 30px;
+      }
+
+      /* -------------------contact部分-------------------- */
+
+      #contact {
+        padding-top: 100px;
+      }
+
+      #contact .container {
+        min-width: 300px;/**/
+      }
+
+      #contact .column {
+        margin: 0 auto;/**/
+      }
+
+      /* -------------------contact部分-------------------- */
+
+      .footfloat {  
+        height: 30px;
+        font-size: 14px;
+        line-height: 30px;
+        padding: 5px;
+      }
+
+      .termofuse a {
+        color: #fed136;
+      }
+
+    }
+    }
+  </style>
+</head>
+<body>
+   <div id="header-wrap">
+    
+
+    <!-- 轮播 -->
+
+    <div class="container">
+    <ul class="picwrap clearfix">
+      <li><a href="#"><img src="http://e.hiphotos.baidu.com/image/pic/item/e824b899a9014c08b2712afc017b02087bf4f425.jpg" alt=""></a></li>
+      <li><a href="#"><img src="http://www.clubit.tv/wp-content/uploads/2017/08/pokemon.jpg" alt=""></a></li>
+      <li><a href="#"><img src="https://www.nintendoprime.net/wp-content/uploads/2017/07/gobirthday.jpg" alt=""></a></li>
+
+    </ul>
+    <div class="btn1 btn">&lt;</div>
+    <div class="btn2 btn">&gt;</div>
+    <div class="touchoffset">
+      <ul class="touchbar clearfix">
+        <li class="selected"></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+    
+    <!-- 轮播结束 -->
+<header class="clearfix">
+      <div class="menu_icon">&#xe790;</div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2000px-International_Pok%C3%A9mon_logo.svg.png"
+        alt="pokemon_logo">
+      <ul class="clearfix">
+        <li class="top_nav">BUY NOW</li>
+        <li class="top_nav">SERVICES</li>
+        <li class="top_nav">STORY</li>
+        <li class="top_nav">SHOP</li>
+        <li class="top_nav">NINTENDO</li>
+      </ul>
+    </header>
+    <div id="header-content" class="clearfix">
+      <h4>Welcome To Pokemon World</h4>
+      <h1>IT'S NICE TO MEET YOU</h1>
+      <button>LEARN MORE</button>
+    </div>
+  </div>
+
+  <section id='services' class="clearfix title">
+    <h1>SERVICES</h1>
+    <p>Lorem ipsum dolor sit amet consectetur.</p>
+    <div class="service_wrap clearfix">
+      <div class="servicetab servicetab1">
+        <span>
+          <i>&#xe670;</i>
+        </span>
+        <h4>Online&nbsp;Battle</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni,
+          dicta impedit.</p>
+      </div>
+      <div class="servicetab servicetab2">
+        <span>
+          <i>&#xe788;</i>
+        </span>
+        <h4>Avatar</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni,
+          dicta impedit.</p>
+      </div>
+      <div class="servicetab servicetab3">
+        <span>
+          <i>&#xe62d;</i>
+        </span>
+        <h4>Manual</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni,
+          dicta impedit.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id='story' class='title'>
+    <h1>STORY</h1>
+    <p>Lorem ipsum dolor sit amet consectetur.</p>
+    <div class="story_wrap clearfix">
+     <!--  <div class="story_card">
+        <div class="shadoweff">
+          <div class="story_img_wrap">
+            <div class="hovereffect">
+              <span>&#xe726;</span>
+            </div>
+            <img src="https://www.shareicon.net/data/512x512/2016/08/01/640589_game_512x512.png" alt="pikachu">
+          </div>
+          <h4>Pikachu</h4>
+          <p>Pokemon Biography</p>
+        </div>
+      </div>
+      <div class="story_card">
+        <div class="shadoweff">
+          <div class="story_img_wrap">
+            <div class="hovereffect">
+              <span>&#xe726;</span>
+            </div>
+            <img src="https://www.shareicon.net/data/256x256/2016/08/05/807311_gaming_512x512.png" alt="Bullbasaur">
+          </div>
+          <h4>Bullbasaur</h4>
+          <p>Pokemon Biography</p>
+        </div>
+      </div>
+      <div class="story_card">
+        <div class="shadoweff">
+          <div class="story_img_wrap">
+            <div class="hovereffect">
+              <span>&#xe726;</span>
+            </div>
+            <img src="https://www.shareicon.net/data/256x256/2016/08/05/807318_gaming_512x512.png" alt="Dratini">
+          </div>
+          <h4>Dratini</h4>
+          <p>Pokemon Biography</p>
+        </div>
+      </div>
+      <div class="story_card">
+        <div class="shadoweff">
+          <div class="story_img_wrap">
+            <div class="hovereffect">
+              <span>&#xe726;</span>
+            </div>
+            <img src="https://www.shareicon.net/data/256x256/2016/08/05/807319_gaming_512x512.png" alt="meowth">
+          </div>
+          <h4>Meowth</h4>
+          <p>Pokemon Biography</p>
+        </div>
+      </div>
+      <div class="story_card">
+        <div class="shadoweff">
+          <div class="story_img_wrap">
+            <div class="hovereffect">
+              <span>&#xe726;</span>
+            </div>
+            <img src="https://www.shareicon.net/data/256x256/2016/08/05/807323_gaming_512x512.png" alt="snorlax">
+          </div>
+          <h4>Snorlax</h4>
+          <p>Pokemon Biography</p>
+        </div>
+      </div>
+      <div class="story_card">
+        <div class="shadoweff">
+          <div class="story_img_wrap">
+            <div class="hovereffect">
+              <span>&#xe726;</span>
+            </div>
+            <img src="https://www.shareicon.net/data/256x256/2016/08/05/807320_gaming_512x512.png" alt="Bellsprout">
+          </div>
+          <h4>Bellsprout</h4>
+          <p>Pokemon Biography</p>
+        </div>
+      </div> -->
+      <ul id="pic-ct" class="clearfix">
+          <li class="item hide"></li>
+      </ul>
+      <div id="load">加载更多</div>
+    </div>
+
+
+    </div>
+  </section>
+
+  <section id='shop' class="title">
+    <h1>SHOP</h1>
+    <p>Lorem ipsum dolor sit amet consectetur.</p>
+    <div class="container">
+      <ul>
+        <li class='clearfix'>
+          <div class="timeline_image">
+            <img src="http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a490fcf0fa1f3a294ec5dd8df14cd644/2cf5e0fe9925bc3174a45cb654df8db1cb137026.jpg"
+              alt="shanghai">
+          </div>
+          <div class="timeline_content oddlist minlist">
+            <div class="timeline_heading">
+              <h4>SHANGHAI</h4>
+              <h4>Detailed Address</h4>
+            </div>
+            <div class="timeline_body">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis
+                temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+            </div>
+          </div>
+        </li>
+        <li class='clearfix'>
+          <div class="timeline_image">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509114668928&di=e98a320eaf23e6c036124f03913e7f2a&imgtype=0&src=http%3A%2F%2Fstatic.xialv.com%2Fcover%2F2013%2F08%2F12%2F56%2F13762801702244zvaqt.jpg"
+              alt="beijing">
+          </div>
+          <div class="timeline_content evenlist minlist">
+            <div class="timeline_heading">
+              <h4>BEIJING</h4>
+              <h4>Detailed Address</h4>
+            </div>
+            <div class="timeline_body">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis
+                temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+            </div>
+          </div>
+        </li>
+        <li class='clearfix'>
+          <div class="timeline_image">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509114742942&di=73a5a6ef96b80abf15864e0b1c1aa704&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3Dc0fd5e2e51b5c9ea76fe0ba0bd50dc75%2F14ce36d3d539b600ce956792e350352ac65cb7b8.jpg"
+              alt="shenzhen">
+          </div>
+          <div class="timeline_content oddlist minlist">
+            <div class="timeline_heading">
+              <h4>SHENZHEN</h4>
+              <h4>Detailed Address</h4>
+            </div>
+            <div class="timeline_body">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis
+                temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+            </div>
+          </div>
+        </li>
+        <li class='clearfix'>
+          <div class="timeline_image">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509114809460&di=145be725e460468c858a28de3e281ecb&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fa9d3fd1f4134970af3efccee9ccad1c8a6865d57.jpg"
+              alt="chengdu">
+          </div>
+          <div class="timeline_content evenlist minlist">
+            <div class="timeline_heading">
+              <h4>CHENGDU</h4>
+              <h4>Detailed Address</h4>
+            </div>
+            <div class="timeline_body">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis
+                temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+            </div>
+          </div>
+        </li>
+        <li class='clearfix'>
+          <div class="timeline_image">
+            <h4>WATING<br>FOR<br>YOU</h4>
+          </div>
+    </div>
+    </li>
+    </ul>
+    </div>
+  </section>
+
+  <section id="ourteam" class="title">
+    <h1>OUR TEAM</h1>
+    <p>Lorem ipsum dolor sit amet consectetur.</p>
+    <div class="team_wrap clearfix">
+      <div class="team_card">
+        <img src="http://i.imgur.com/np2Ilyq.png" alt="mario">
+        <div class="team_intro">
+          <h4>Kay Garland</h4>
+          <p>Team Leader</p>
+        </div>
+        <div class="team_social">
+          <ul>
+            <li>
+              <a href="#">&#xe63a;</a>
+            </li>
+            <li>
+              <a href="#">&#xe61c;</a>
+            </li>
+            <li>
+              <a href="#">&#xe68c;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="team_card">
+        <img src="http://i.imgur.com/np2Ilyq.png" alt="mario">
+        <div class="team_intro">
+          <h4>Larry Parker</h4>
+          <p>Lead Designer</p>
+        </div>
+        <div class="team_social">
+          <ul>
+            <li>
+              <a href="#">&#xe63a;</a>
+            </li>
+            <li>
+              <a href="#">&#xe61c;</a>
+            </li>
+            <li>
+              <a href="#">&#xe68c;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="team_card">
+        <img src="http://i.imgur.com/np2Ilyq.png" alt="mario">
+        <div class="team_intro">
+          <h4>Diana Pertersen</h4>
+          <p>Lead Trainer</p>
+        </div>
+        <div class="team_social">
+          <ul>
+            <li>
+              <a href="#">&#xe63a;</a>
+            </li>
+            <li>
+              <a href="#">&#xe61c;</a>
+            </li>
+            <li>
+              <a href="#">&#xe68c;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis,
+      totam corporis ea, alias ut unde.
+    </p>
+  </section>
+  
+  <section id="contact" class="title">
+      <h1>CONTACT</h1>
+      <p>Lorem ipsum dolor sit amet consectetur.</p>
+    <div class="container">
+      <form action="#" method="post">
+        <div class="column_wrap clearfix">
+          <div class="column1 column">
+            <div class="yourname inputgroup">
+              <input type="text" name="name" placeholder="Your Name *" class="form_control">
+            </div>
+            <div class="yourmail inputgroup">
+              <input type="text" name="email" placeholder="Your Email *" class="form_control">
+            </div>
+            <div class="yourphone inputgroup">
+              <input type="text" name="phone" placeholder="Your Phone *" class="form_control">
+            </div>
+          </div>
+          <div class="column2 column">
+              <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message *" class="form_control"></textarea>
+          </div>
+        </div>
+        <button>SEND MESSAGE</button>
+      </form>
+
+    </div>
+  </section>
+
+  <footer class="clearfix">
+    <div class="copyright footfloat">
+        Copyright © Code by Joyyang 2017
+    </div>
+    <div class="team_social footfloat">
+      <ul>
+        <li>
+          <a href="#">&#xe63a;</a>
+        </li>
+        <li>
+          <a href="#">&#xe61c;</a>
+        </li>
+        <li>
+          <a href="#">&#xe68c;</a>
+        </li>
+      </ul>
+    </div>
+    <div class="termofuse footfloat">
+      <a href="#">Privacy Policy</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Terms of Use</a>
+    </div>
+  </footer>
+
+<script>
+
+// var lunBo = (function(){
+
+//   function Carousel(container){
+//     this.init(container);
+//     this.bind(container);
+//   }
+
+//   Carousel.prototype.init = function(container){
+//     this.headerwrap = container.parent();
+//     console.log(this.headerwrap)
+//     this.windowwidth = $(window).width();
+//     console.log(this.windowwidth)
+//     this.$ulpic = container.find('.picwrap');
+//     this.$piclist = this.$ulpic.children();
+
+//     this.$imgs = this.$piclist.find('img');
+//     this.imageWidth = this.$imgs.width(this.windowwidth);
+
+//     // console.log(this.imageWidth)
+
+
+//     this.$touchbar = container.find('.touchbar');
+//     this.$touchlist = container.find('.touchbar li');
+//     this.$leftbtn = container.find('.btn1');
+//     this.$rgtbtn = container.find('.btn2');
+    
+//     var touchbarleft = this.windowwidth/2;
+//     console.log(this.$touchbar)
+//     this.$touchbar.css({left: touchbarleft});
+//     this.$ulpic.append(this.$piclist.eq(0).clone());
+//     this.$ulpic.prepend(this.$piclist.eq(this.$piclist.length-1).clone());
+//     // console.log(this.$ulpic.children().length*this.imageWidth)
+//     this.$ulpic.width(this.$ulpic.children().length*this.windowwidth);
+//     container.height(this.$ulpic.height());
+//     container.width(this.windowwidth);
+//     this.headerwrap.height(container.height());
+//     this.$ulpic.css({left:-this.imageWidth})
+//     this.playlockr = true;
+//     this.playlockl = true;
+//   }
+
+
+//   Carousel.prototype.bind = function(container){
+//       var self = this;
+//       this.$touchlist.on('mouseover',function(){  
+//       self.dotselected($(this))
+
+//       console.log(self.$touchlist)
+//       var linum = self.$touchlist.index(this);
+//             console.log(linum)
+//         self.$ulpic.stop().animate({'left': -self.windowwidth*(linum+1)}, 1000);
+//     })
+//     // var playlockr = true;
+//     // var playlockl = true;
+//     this.$leftbtn.on('click',function(){
+//       console.log(self.playPre)
+//       self.playPre();
+//     })
+
+//     this.$rgtbtn.on('click',function(){
+//       self.playNext();
+//     })
+//   }
+
+//   Carousel.prototype.playNext = function(){
+//     var self = this;
+//       var $css_left = parseInt(this.$ulpic.css('left'));
+//       var pageIndex = Math.abs($css_left)/this.windowwidth;
+//       pageIndex++;      
+//       if(this.playlockr){
+//       if(pageIndex > this.$ulpic.children().length-2){
+//         this.playlockr = false;
+//         this.dotselected(this.$touchlist.eq(0));
+//         this.$ulpic.animate({'left': -pageIndex*self.windowwidth},400,function(){self.$ulpic.css('left', -self.windowwidth);self.playlockr = true;});
+        
+//       } else {
+//         this.playlockr = false;
+//         this.dotselected(this.$touchlist.eq(pageIndex-1));
+//         this.$ulpic.animate({'left': -pageIndex*self.windowwidth},400,function(){self.playlockr = true;});
+//       }
+//       }  
+//   }
+
+//   Carousel.prototype.playPre = function(){
+//     var self = this;
+//       var $css_left = parseInt(this.$ulpic.css('left'));
+//       var pageIndex = Math.abs($css_left)/this.windowwidth;
+//       pageIndex--;
+//       if(this.playlockl){
+//       if(pageIndex === 0){
+//         this.playlockl = false;
+//         this.dotselected(this.$touchlist.eq(this.$ulpic.children().length-3));
+//         this.$ulpic.animate({'left': 0},400,function(){self.$ulpic.css('left', -(self.$ulpic.children().length-2)*self.windowwidth);self.playlockl = true;});
+
+//       } else {
+//         this.playlockl = false;
+//         this.dotselected(this.$touchlist.eq(pageIndex-1));
+//         this.$ulpic.animate({'left': -pageIndex*self.windowwidth},400,function(){self.playlockl = true;});
+
+//       } 
+//       }    
+//   }
+
+
+//     Carousel.prototype.dotselected = function(node){
+//       node.siblings('.touchbar>li').css('background-color','#777')
+//       node.css('background-color','#eee')
+//     }
+
+
+//     return {
+//       init: function($ctn){
+//         $ctn.each(function(idx,ele){
+//           new Carousel($(ele));
+//         })
+//       }
+//     }
+
+// })()
+    
+//     var container = $('#header-wrap .container');
+//     lunBo.init(container);
+
+
+// // 瀑布流新闻开始
+
+
+//     var water = (function () {
+//         function waterFall($data){
+//             var curPage = 1,
+//                 PageCount = 9;
+
+//             function loadAndPlace() {
+//                 $.ajax({
+//                     url: 'http://platform.sina.com.cn/slide/album_tech',
+//                     dataType: 'jsonp',
+//                     jsonp: 'jsoncallback',
+//                     data: {
+//                         app_key: '1271687855',
+//                         num: PageCount,
+//                         page: curPage
+//                     }
+//                 }).done(function (ret) {//$.done()知识点
+//                     if(ret && ret.status && ret.status.code == '0'){
+
+//                         place(ret.data);
+//                     }else{
+//                         console.log('get wrong data');
+//                     }
+//                 });
+//                 curPage++
+//             }
+
+//             loadAndPlace();
+
+//             $('#load').on('click',function () {
+//                 loadAndPlace();
+//             })
+
+//             function place(nodeList) {
+//                 var $node = renderData(nodeList),
+//                     defereds = [];
+
+//                 $node.find('img').each(function () {
+//                     var defer = $.Deferred();
+//                     $(this).load(function () {
+//                         defer.resolve();
+//                     })
+//                     defereds.push(defer);
+//                 })
+
+//                 $.when.apply(null,defereds).done(function () {
+//                     waterFallPlace($node);
+//                 })
+//             }
+
+//             function renderData(items) {
+//                 var tpl = '',
+//                     $node;
+//                 for(var i = 0;i<items.length;i++){
+//                     tpl += '<li class="item">';
+//                     tpl += ' <a href="'+ items[i].url +'" class="link"><img src="' + items[i].img_url + '" alt=""></a>';
+//                     tpl += ' <h4 class="header">'+ items[i].short_name +'</h4>';
+//                     tpl += '<p class="desp">'+items[i].short_intro+'</p>';
+//                     tpl += '</li>';
+//                 }
+//                 $node = $(tpl);
+//                 $data.append($node);
+
+//                 return $node;
+//             }
+
+//             var colSumHeight = [],
+//                 nodeWidth = $data.find('.item').outerWidth(true),
+//                 colNum = parseInt($data.width()/nodeWidth);
+//             for (var i=0;i<colNum;i++){
+//                 colSumHeight.push(0)
+//             }
+// //          console.log(nodeWidth)
+//             function waterFallPlace($nodes){
+//                 $nodes.each(function (){
+//                     var $cur = $(this),
+//                         idx = 0,
+//                         minSumHeight = colSumHeight[0];
+
+
+//                     for (var i=0;i<colSumHeight.length;i++){
+//                         if(colSumHeight[i]<minSumHeight){
+//                             minSumHeight = colSumHeight[i];
+//                             idx = i;
+//                         }
+//                     }
+
+//                     $cur.css({
+//                         top: minSumHeight,
+//                         left: idx*nodeWidth,
+//                         opacity: 1
+//                     })
+
+//                     colSumHeight[idx] += $cur.outerHeight(true);
+//                     $data.height(Math.max.apply(null,colSumHeight));//添加完成后需要增加父容器宽度
+// //              console.log(Math.max.apply(null,colSumHeight));
+//                 })
+//             }
+//         }
+//         return waterFall
+//     })()
+
+
+//     water($('#pic-ct'));
+
+
+
+
+// // 瀑布流新闻结束
+
+
+// //gotop开始
+
+// var gotop = (function() {
+
+
+//   function goTop(id) {
+//     this.id = id || 'jrg-gotop';
+//     this.init();
+//   }
+
+//   goTop.prototype = {
+//     init: function() {
+//       var $el = $('#' + this.id);
+//       if ($el.length === 0) {
+//         console.log('回到顶部');
+//         this.$el = $('<div id="' + this.id + '" style="position: fixed; right: 10px; bottom: 10px; display: none; width: 32px; border-radius: 6px; padding: 10px;border: 1px solid #ccc;cursor: pointer;">GO TOP</div>');
+//         $('body').append(this.$el);
+//       } else {
+//         this.$el = $el;
+//       }
+
+//       this.bind();
+//     },
+
+//     bind: function() {
+//       var me = this;
+//       me.$el.on('click', function() {
+//         me.goToTop();
+//       });
+
+//       $(document).on('scroll', function(){
+//         me.scroll();
+//       });
+//     },
+
+//     goToTop: function() {
+//       $(document).scrollTop(0);
+//     },
+
+//     scroll: function() {
+//       var scrollTop = $(document).scrollTop();
+//       if (scrollTop > 400) {
+//         this.$el.show();
+//       } else {
+//         this.$el.hide();
+//       }
+//     }
+//   };
+
+//   //new goTop();
+
+//   return goTop
+
+// })()
+
+// new gotop()
+//gotop结束
+  </script>
+  
+</body>
+</html>
